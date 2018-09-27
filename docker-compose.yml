@@ -1,0 +1,45 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+#  db:
+#    image: postgres
+#    restart: always
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      POSTGRES_USER: "u"
+#      POSTGRES_PASSWORD: "u"
+#
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - 8080:8080
+
+  database:
+    image: mysql
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=home"
+      - "MYSQL_USER=home"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+        - "3306:3306"
+
+  phpmyadmin:
+    depends_on:
+      - database
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - 89:80
+    environment:
+      PMA_HOST: database
+      MYSQL_ROOT_PASSWORD: secret
+
+volumes:
+  dbdata:
