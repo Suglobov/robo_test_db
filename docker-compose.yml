@@ -1,7 +1,7 @@
 # Use postgres/example user/password credentials
-version: '3.1'
+#version: '3.1'
 
-services:
+#services:
 
 #  db:
 #    image: postgres
@@ -18,28 +18,60 @@ services:
 #    ports:
 #      - 8080:8080
 
-  database:
+#  database:
+#    image: mysql
+#    volumes:
+#      - dbdata:/var/lib/mysql
+#    environment:
+#      - "MYSQL_DATABASE=homestead"
+#      - "MYSQL_USER=homestead"
+#      - "MYSQL_PASSWORD=secret"
+#      - "MYSQL_ROOT_PASSWORD=secret"
+#    ports:
+#        - "3306:3306"
+#
+#  phpmyadmin:
+#    depends_on:
+#      - database
+#    image: phpmyadmin/phpmyadmin
+#    restart: always
+#    ports:
+#      - 89:80
+#    environment:
+#      PMA_HOST: database
+#      MYSQL_ROOT_PASSWORD: secret
+#
+#volumes:
+#  dbdata:
+version: '2'
+services:
+  db:
     image: mysql
-    volumes:
-      - dbdata:/var/lib/mysql
-    environment:
-      - "MYSQL_DATABASE=home"
-      - "MYSQL_USER=home"
-      - "MYSQL_PASSWORD=secret"
-      - "MYSQL_ROOT_PASSWORD=secret"
-    ports:
-        - "3306:3306"
-
-  phpmyadmin:
-    depends_on:
-      - database
-    image: phpmyadmin/phpmyadmin
     restart: always
     ports:
-      - 89:80
+      - "3306:3306"
     environment:
-      PMA_HOST: database
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: home
+      MYSQL_USER: home
+      MYSQL_PASSWORD: home
+      MYSQL_ROOT_PASSWORD: home
+    volumes:
+      - ./docker/mysql/conf:/etc/mysql/conf.d
+      - ./docker/mysql/db:/var/lib/mysql
 
-volumes:
-  dbdata:
+  php:
+    image: php
+#      volumes:
+#          - ./:/var/lib/mysql
+#      networks:
+#          - default
+#  phpmyadmin:
+#      image: phpmyadmin/phpmyadmin
+#      links:
+#          - db:db
+#      ports:
+#          - 8000:80
+#      environment:
+#          MYSQL_USER: home
+#          MYSQL_PASSWORD: home
+#          MYSQL_ROOT_PASSWORD: home
