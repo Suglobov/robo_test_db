@@ -3,3 +3,7 @@
 ```
 sudo chmod -R 777 .
 ```
+пересборка докера
+```
+docker-compose up -d --build --force-recreate 
+```
