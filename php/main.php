@@ -17,13 +17,13 @@ $testDataUsers = function ($write = true) use ($pdo, $faker) {
         $rd = $faker->dateTimeThisYear();
         $lvd = $faker->dateTimeBetween($rd);
         $tmp = [
-            'login'             => $faker->name,
+            'login' => $faker->name,
             //            'password'          => password_hash($faker->text, PASSWORD_DEFAULT),
-            'password'          => $faker->text,
+            'password' => $faker->text,
             'registration_date' => $rd->format("Y-m-d H:i:s"),
-            'last_visit_date'   => $lvd->format("Y-m-d H:i:s"),
-            'experience'        => $faker->numberBetween(0, 314286147123290000),
-            'rating_ball'       => $faker->numberBetween(0, 1000),
+            'last_visit_date' => $lvd->format("Y-m-d H:i:s"),
+            'experience' => $faker->numberBetween(0, 314286147123290000),
+//            'rating_ball'       => $faker->numberBetween(0, 1000),
         ];
         $testData[] = $tmp;
     }
@@ -31,8 +31,8 @@ $testDataUsers = function ($write = true) use ($pdo, $faker) {
     if (!$write) {
         return;
     }
-    $sql = 'INSERT INTO `users` (login, password, registration_date, last_visit_date, rating_ball, experience)
-            VALUE (:login, :password, :registration_date, :last_visit_date, :rating_ball, :experience)';
+    $sql = 'INSERT INTO `users` (login, password, registration_date, last_visit_date, experience)
+            VALUE (:login, :password, :registration_date, :last_visit_date, :experience)';
     $stm = $pdo->prepare($sql);
     foreach ($testData as $k => $v) {
 //        echo print_r($v, 1) . PHP_EOL;
@@ -46,7 +46,7 @@ $testDataUsersLevels = function () use ($pdo, $faker) {
     $tmpExp = 100;
     for ($i = 2; $i <= $testData_maxLength; $i++) {
         $tmp = [
-            'level'      => $i,
+            'level' => $i,
             'experience' => $tmpExp,
         ];
         $tmpExp = round($tmpExp * 0.5) + $tmpExp;
@@ -67,8 +67,8 @@ $testDataCharacters = function () use ($pdo, $faker) {
     $testData_maxLength = 15;
     for ($i = 0; $i < $testData_maxLength; $i++) {
         $tmp = [
-            'name'           => $faker->name,
-            'fk_first_line'  => 1,
+            'name' => $faker->name,
+            'fk_first_line' => 1,
             'fk_second_line' => $faker->numberBetween(2, 4),
         ];
         $testData[] = $tmp;
@@ -89,7 +89,7 @@ $testDataCharactersLevels = function () use ($pdo, $faker) {
     $tmpExp = 500;
     for ($i = 2; $i <= $testData_maxLength; $i++) {
         $tmp = [
-            'level'      => $i,
+            'level' => $i,
             'experience' => $tmpExp,
         ];
         $tmpExp = round($tmpExp * 0.5) + $tmpExp;
@@ -105,9 +105,30 @@ $testDataCharactersLevels = function () use ($pdo, $faker) {
         $stm->execute($v);
     }
 };
+$testDataRating = function () use ($pdo, $faker) {
 
+    $testData = [];
+    $testData_maxLength = 5000;
+    for ($i = 0; $i <= $testData_maxLength; $i++) {
+        $tmp = [
+            'fk_user' => $faker->numberBetween(154, 203),
+            'ball' => $faker->numberBetween(10, 100),
+            'ball_datetime' => $faker->dateTimeThisYear()->format("Y-m-d H:i:s"),
+            'fk_message' => 1,
+        ];
+        $testData[] = $tmp;
+    }
+//    echo print_r($testData, 1) . PHP_EOL;
+    $sql = 'INSERT INTO `ratings_balls` (fk_user, ball, ball_datetime, fk_message)
+                    VALUE (:fk_user, :ball, :ball_datetime, :fk_message)';
+    $stm = $pdo->prepare($sql);
+    foreach ($testData as $k => $v) {
+        $stm->execute($v);
+    }
+};
 
 //$testDataUsers();
 //$testDataUsersLevels();
 //$testDataCharactersLevels();
 //$testDataCharacters();
+//$testDataRating();

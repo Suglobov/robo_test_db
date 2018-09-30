@@ -46,7 +46,7 @@
 version: '2'
 services:
   db:
-    image: mysql
+    image: mysql:5.7
     restart: always
     ports:
       - "3306:3306"
@@ -55,9 +55,9 @@ services:
       MYSQL_USER: home
       MYSQL_PASSWORD: home
       MYSQL_ROOT_PASSWORD: home
-    volumes:
-      - ./docker/mysql/conf:/etc/mysql/conf.d
-      - ./docker/mysql/db:/var/lib/mysql
+#    volumes:
+#      - ./docker/mysql/conf:/etc/mysql/conf.d
+#      - ./docker/mysql/db:/var/lib/mysql
 
   php:
     image: php
