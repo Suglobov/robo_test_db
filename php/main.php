@@ -193,31 +193,34 @@ $testDataMatches = function () use ($pdo, $faker) {
 };
 $testDataMatchesLogs = function () use ($pdo, $faker) {
     $testData = [];
-    $testData_maxLength = 10000;
-    for ($i = 0; $i < $testData_maxLength; $i++) {
+    $testData_maxLength = 101;
+    for ($i = 1; $i < $testData_maxLength; $i++) {
         $dStart = $faker->dateTimeThisYear()->format("Y-m-d H:i:s");
-        $dFinish = $faker->dateTimeInInterval($dStart, '+30 minutes')->format("Y-m-d H:i:s");
-        $tmp = [
-            'fk_match'       => $faker->numberBetween(1, 100),
-            'fk_user_1'      => $faker->numberBetween(1, 50),
-            'fk_user_2'      => $faker->numberBetween(1, 50),
-            'datetime_event' => $faker->dateTimeThisYear()->format("Y-m-d H:i:s"),
-            'fk_event'       => $faker->numberBetween(1, 2),
-        ];
-        $testData[] = $tmp;
+        //        $dFinish = $faker->dateTimeInInterval($dStart, '+30 minutes')->format("Y-m-d H:i:s");
+        for ($j = 0; $j < 5; $j++) {
+            $tmp = [
+                'fk_match'       => $i,
+                'fk_user_char_1' => $faker->numberBetween(1, 101),
+                'fk_user_char_2' => $faker->numberBetween(1, 101),
+                'datetime_event' => $faker->dateTimeThisYear()->format("Y-m-d H:i:s"),
+                'fk_event'       => $faker->numberBetween(1, 1),
+            ];
+            $testData[] = $tmp;
+        }
     }
-    //        echo print_r($testData, 1) . PHP_EOL;
+    //    echo print_r($testData, 1) . PHP_EOL;
+    //    return;
     $sql = 'INSERT INTO `matches_logs` (
                   fk_match,
-                  fk_user_1,
-                  fk_user_2,
+                  fk_user_char_1,
+                  fk_user_char_2,
                   datetime_event,
                   fk_event
                 )
                 VALUE (
                   :fk_match,
-                  :fk_user_1,
-                  :fk_user_2,
+                  :fk_user_char_1,
+                  :fk_user_char_2,
                   :datetime_event,
                   :fk_event
                 )';
@@ -226,7 +229,63 @@ $testDataMatchesLogs = function () use ($pdo, $faker) {
         $stm->execute($v);
     }
 };
-
+$testDataMatchesParty = function () use ($pdo, $faker) {
+    $testData = [];
+    $testData_maxLength = 101;
+    for ($i = 1; $i < $testData_maxLength; $i++) {
+        $tmp = [
+            'fk_match'     => $i,
+            'team'         => 1,
+            'fk_user_char' => $faker->randomElement([29, 66]),
+        ];
+        $testData[] = $tmp;
+        $tmp = [
+            'fk_match'     => $i,
+            'team'         => 1,
+            'fk_user_char' => $faker->randomElement([25]),
+        ];
+        $testData[] = $tmp;
+        $tmp = [
+            'fk_match'     => $i,
+            'team'         => 1,
+            'fk_user_char' => $faker->randomElement([8, 35, 83]),
+        ];
+        $testData[] = $tmp;
+        $tmp = [
+            'fk_match'     => $i,
+            'team'         => 2,
+            'fk_user_char' => $faker->randomElement([63, 75]),
+        ];
+        $testData[] = $tmp;
+        $tmp = [
+            'fk_match'     => $i,
+            'team'         => 2,
+            'fk_user_char' => $faker->randomElement([64, 73]),
+        ];
+        $testData[] = $tmp;
+        $tmp = [
+            'fk_match'     => $i,
+            'team'         => 2,
+            'fk_user_char' => $faker->randomElement([89]),
+        ];
+        $testData[] = $tmp;
+    }
+    //    echo print_r($testData, 1) . PHP_EOL;
+    $sql = 'INSERT INTO `matches_party` (
+                  fk_match,
+                  team,
+                  fk_user_char
+                )
+                VALUE (
+                  :fk_match,
+                  :team,
+                  :fk_user_char
+                )';
+    $stm = $pdo->prepare($sql);
+    foreach ($testData as $k => $v) {
+        $stm->execute($v);
+    }
+};
 //$testDataUsers();
 //$testDataUsersLevels();
 //$testDataCharactersLevels();
@@ -234,4 +293,5 @@ $testDataMatchesLogs = function () use ($pdo, $faker) {
 //$testDataRating();
 //$testDataUserChar();
 //$testDataMatches();
-$testDataMatchesLogs();
+//$testDataMatchesLogs();
+//$testDataMatchesParty();
