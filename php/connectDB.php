@@ -8,10 +8,10 @@
 $host = '127.0.0.1';
 $port = '3306';
 $db = 'home';
-//$user = 'home';
-$user = 'root';
-//$pass = 'home';
-$pass = '';
+$user = 'home';
+//$user = 'root';
+$pass = 'home';
+//$pass = '';
 $charset = 'utf8';
 
 //$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
