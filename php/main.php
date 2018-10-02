@@ -200,10 +200,9 @@ $testDataMatchesLogs = function () use ($pdo, $faker) {
         for ($j = 0; $j < 5; $j++) {
             $tmp = [
                 'fk_match'       => $i,
-                'fk_user_char_1' => $faker->numberBetween(1, 101),
-                'fk_user_char_2' => $faker->numberBetween(1, 101),
+                'fk_user_char' => $faker->numberBetween(1, 101),
                 'datetime_event' => $faker->dateTimeThisYear()->format("Y-m-d H:i:s"),
-                'fk_event'       => $faker->numberBetween(1, 1),
+                'fk_event'       => $faker->randomElement([1, 4]),
             ];
             $testData[] = $tmp;
         }
@@ -212,15 +211,13 @@ $testDataMatchesLogs = function () use ($pdo, $faker) {
     //    return;
     $sql = 'INSERT INTO `matches_logs` (
                   fk_match,
-                  fk_user_char_1,
-                  fk_user_char_2,
+                  fk_user_char,
                   datetime_event,
                   fk_event
                 )
                 VALUE (
                   :fk_match,
-                  :fk_user_char_1,
-                  :fk_user_char_2,
+                  :fk_user_char,
                   :datetime_event,
                   :fk_event
                 )';
@@ -293,5 +290,5 @@ $testDataMatchesParty = function () use ($pdo, $faker) {
 //$testDataRating();
 //$testDataUserChar();
 //$testDataMatches();
-//$testDataMatchesLogs();
 //$testDataMatchesParty();
+//$testDataMatchesLogs();

@@ -418,7 +418,7 @@ CREATE TABLE `matches_logs` (
 -- Дамп данных таблицы `matches_logs`
 --
 
-INSERT INTO `matches_logs` (`pk`, `fk_match`, `fk_user_char_1`, `fk_user_char_2`, `datetime_event`, `fk_event`) VALUES
+INSERT INTO `matches_logs` (`pk`, `fk_match`, fk_user_char, `fk_user_char_2`, `datetime_event`, `fk_event`) VALUES
 (501, 1, 1, 10, '2017-10-02 18:52:48', 1),
 (503, 1, 18, 78, '2017-10-07 08:21:29', 1),
 (504, 1, 43, 53, '2017-12-14 12:19:55', 1),
